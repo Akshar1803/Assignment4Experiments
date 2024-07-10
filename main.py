@@ -120,9 +120,6 @@ if train_dqn:
     plt.ylabel('Rewards')
     plt.legend()
     plt.savefig("training_curve.png")
-    date_time = now.strftime("_%H:%M:%S_").replace(" ","")
-    locationchange= os.path.join("trainings","training_curve"+str(date_time)+".png")
-    plt.savefig(locationchange)
     plt.show()
 
 # Test:
