@@ -6,11 +6,11 @@ import gymnasium as gym
 # Step 0: Import images for the environment
 # -------
 # Paths to your images
-agent_img_path = r'D:\Ingolstadt\PADM\q_learning_akk5551 (1)\q_learning_akk5551\agent.gif'
-goal_img_path = r'D:\Ingolstadt\PADM\q_learning_akk5551 (1)\q_learning_akk5551\goal.webp'
-obstacle_img_path = r'D:\Ingolstadt\PADM\q_learning_akk5551 (1)\q_learning_akk5551\obstacles.gif'
-cctv_img_path = r'D:\Ingolstadt\PADM\q_learning_akk5551 (1)\q_learning_akk5551\cctv.gif'
-coin_gif = r"D:\Ingolstadt\PADM\q_learning_akk5551 (1)\q_learning_akk5551\coin.gif"
+agent_img_path = "agent.gif"
+goal_img_path = "goal.webp"
+obstacle_img_path = "obstacles.gif"
+cctv_img_path = "cctv.gif"
+coin_gif = "coin.gif"
 
 
 # Step 1: Define your own custom environment
@@ -126,7 +126,9 @@ class ChidEnv(gym.Env):
             self.reward = -1  # Negative reward for each step
 
         self.info['Distance to goal'] = np.linalg.norm(self.state - self.goal)
-        return self.state, self.reward, self.done, self.info, self.cctv_transfer, self.in_cctv
+        self.info['CCTV Transfer'] =  self.cctv_transfer
+        self.info['IN CCTV'] = self.in_cctv
+        return self.state, self.reward, self.done, self.info
 
     def render(self):
         for event in pygame.event.get():
@@ -173,6 +175,27 @@ def create_env(goal_coordinates, hell_state_coordinates, cctv_coordinates, coin)
         env.add_coin(coin=coin[i])
 
   return env
+
+
+
+def create_env(goal_coordinates,
+               hell_state_coordinates, 
+               cctv_coordinates, 
+               coin_coordinates ):
+    # Create the environment:
+    # -----------------------
+    env = ChidEnv(goal_coordinates=goal_coordinates,grid_size=6)
+    
+    for i in range(len(hell_state_coordinates)):
+        env.add_hell_states(hell_state_coordinates=hell_state_coordinates[i])
+    for i in range(len(cctv_coordinates)):
+        env.add_cctv_states(cctv_coordinates=cctv_coordinates[i])
+    for i in range(len(coin_coordinates)):
+        env.add_coin(coin=coin_coordinates[i])
+
+    return env
+        
+        
 # Step 2: Instantiate and use your custom environment
 # -------
 # my_env = ChidEnv()
