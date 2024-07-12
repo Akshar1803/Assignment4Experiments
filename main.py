@@ -10,7 +10,7 @@ import torch.optim as optim
 import matplotlib.pyplot as plt
 from utils import ReplayBuffer, train
 from padm_env import create_env
-from constants import CCTV_POINTS, COINS_POINTS, HELL_COORDINATE_POINTS
+from constants import HELL_COORDINATE_POINTS
 import os
 
 from datetime import datetime
@@ -36,23 +36,20 @@ learning_rate = 0.006
 gamma = 0.99
 buffer_limit = 80_0
 batch_size = no_actions*16
-num_episodes = 100_00
+num_episodes = 200_00
 max_steps = 10_0
 
-goal_coordinates = (5, 5)
+goal_coordinates = (0,4)
 
 hell_state_coordinates = HELL_COORDINATE_POINTS
-cctv_coordinates = CCTV_POINTS
-coin_coordinates = COINS_POINTS
+
 
 
 # Main:
 # -----
 if train_dqn:
     env = create_env(goal_coordinates=goal_coordinates,
-               hell_state_coordinates=hell_state_coordinates,
-               cctv_coordinates=cctv_coordinates,
-               coin_coordinates=coin_coordinates)
+               hell_state_coordinates=hell_state_coordinates)
 
     #! Initialize the Q Net and the Q Target Net
     q_net = Qnet(no_actions=no_actions, no_states=no_states)
